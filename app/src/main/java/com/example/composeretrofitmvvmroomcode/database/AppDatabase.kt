@@ -2,6 +2,7 @@ package com.example.composeretrofitmvvmroomcode.database
 
 import android.content.Context
 import android.util.Log
+import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
@@ -10,8 +11,11 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 @TypeConverters(
     ConverterList::class
 )
+
+@Database(entities = [ProductEntity::class] , version = 1)
 abstract class AppDatabase: RoomDatabase() {
     abstract fun productDao(): ProductDao
+
 
     companion object {
 
@@ -23,7 +27,7 @@ abstract class AppDatabase: RoomDatabase() {
             synchronized(lock) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(
-                        context.applicationContext,
+                        context,
                         AppDatabase::class.java, "trainingApp"
                     ).addCallback(object : RoomDatabase.Callback() {
                         override fun onCreate(db: SupportSQLiteDatabase) {
