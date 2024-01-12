@@ -11,15 +11,11 @@ class Repository
     suspend fun userData(): Resource<UserData> {
         return try {
             val response = dataSource.userData()
-            //if (response.isSuccessful){
                 if (response.isSuccessful) {
                     Resource.success(response.body()!!)
                 }else {
                     Resource.error(data = response.body(), message = "")
                 }
-           /* }else{
-                Resource.error(data = response.body(), message = "")
-            }*/
 
         } catch (e: Exception) {
             //CommonExceptionHandle.instance.handle(e)

@@ -5,6 +5,8 @@ import android.app.Application
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.composeretrofitmvvmroomcode.model.UserData
@@ -15,29 +17,27 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class CommonViewModel(application: Application) : AndroidViewModel(application) {
+class CommonViewModel(application: Application) : AndroidViewModel(application),DefaultLifecycleObserver {
     private val repository: Repository = Repository()
-    private val userData: MutableLiveData<Resource<UserData>> = MutableLiveData()
-
-    val userDataResp: MutableLiveData<Resource<UserData>>
-        get() = userData
+    private val _showLoader = MutableStateFlow(true)
+    val showLoader : StateFlow<Boolean> = _showLoader.asStateFlow()
 
     private val dataResp = MutableStateFlow<Resource<UserData>>(Resource.default())
 
-    //To observable
-    //val data:StateFlow<UserData> = dataResp
-
     val data : StateFlow<Resource<UserData>> = dataResp.asStateFlow()
 
-    fun userData() {
-        viewModelScope.launch {
-            //userData.postValue(Resource.loading(data = null))
-            val response = repository.userData()
-            Log.v("respoonse", "respoonse " + response)
-            dataResp.value = response
-            //userData.postValue(response)
-        }
 
+    override fun onCreate(owner: LifecycleOwner) {
+        super.onCreate(owner)
+        userData()
     }
 
+
+    private fun userData() {
+        viewModelScope.launch {
+            val response = repository.userData()
+            _showLoader.value = false
+            dataResp.value = response
+        }
+    }
 }

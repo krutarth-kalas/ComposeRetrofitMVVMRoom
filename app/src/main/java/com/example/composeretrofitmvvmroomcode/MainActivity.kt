@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -37,84 +38,22 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModelProvider
 import com.example.composeretrofitmvvmroomcode.model.DataClass
 import com.example.composeretrofitmvvmroomcode.model.dummyData
+import com.example.composeretrofitmvvmroomcode.ui.composable.MainContent
 import com.example.composeretrofitmvvmroomcode.ui.theme.ComposeRetrofitMvvmRoomCodeTheme
+import com.example.composeretrofitmvvmroomcode.viewmodel.CommonViewModel
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
+
+
         super.onCreate(savedInstanceState)
         setContent {
-            ComposeRetrofitMvvmRoomCodeTheme {
-                Scaffold(
-                    topBar = {
-                        CenterAlignedTopAppBar(
-                            title =
-                            {
-                                Text(text = "MY LIST", textAlign = TextAlign.Center)
-                            },
-                            navigationIcon = {
-                                IconButton(onClick = {}) {
-                                    Icon(Icons.Filled.ArrowBack, contentDescription = "Menu")
-                                }
-                            },
-                            colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
-                        )
-                    }
-                ) {
-                   Column(
-                       modifier = Modifier.fillMaxSize().padding(vertical = 100.dp),
-                       horizontalAlignment = Alignment.CenterHorizontally,
-                       verticalArrangement = Arrangement.Top
-                       ) {
-                     /*
-                     val vm = viewModel<MainViewModel>()
-                     private val viewModel by viewModels<MainViewModel>()
-                      mainActivityViewModel: MainActivityViewModel =viewModel(),
-                     val dashboardViewModel: DashboardViewModel = hiltViewModel()
-                       val uiState= dashboardViewModel.productUIState.collectAsState()
-                       https://bigknol.com/jetpack-compose/viewmodel-jetpack-compose-android-simple-example/
-
-                       val productList=uiState.value.productList
-                       val isLoading=uiState.value.isLoading*/
-                   }
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun Recyclerview(users : List<DataClass>){
-    LazyColumn() {
-        items(users.size){userData ->
-            //recyclerviewData(userData)
-        }
-    }
-}
-
-@Composable
-fun recyclerviewData(user: DataClass){
-    Card(
-        modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp).fillMaxWidth(),
-        shape = RoundedCornerShape(CornerSize(10.dp))
-    ) {
-        Row(
-            modifier = Modifier.padding(5.dp)
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_launcher_background),
-                contentDescription = "",
-                modifier = Modifier
-                    .padding(8.dp)
-                    .size(80.dp)
-                    .align(Alignment.CenterVertically)
-                    .clip(
-                        RoundedCornerShape(CornerSize(10.dp))
-                    ))
-            Text(text = user.name, modifier = Modifier.padding(8.dp))
+            MainContent()
         }
     }
 }
