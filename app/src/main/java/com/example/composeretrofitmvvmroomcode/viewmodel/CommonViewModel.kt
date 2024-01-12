@@ -21,11 +21,8 @@ class CommonViewModel(application: Application) : AndroidViewModel(application),
     private val repository: Repository = Repository()
     private val _showLoader = MutableStateFlow(true)
     val showLoader : StateFlow<Boolean> = _showLoader.asStateFlow()
-
-    private val dataResp = MutableStateFlow<Resource<UserData>>(Resource.default())
-
-    val data : StateFlow<Resource<UserData>> = dataResp.asStateFlow()
-
+    private val _dataResp = MutableStateFlow<Resource<UserData>>(Resource.default())
+    val data : StateFlow<Resource<UserData>> = _dataResp.asStateFlow()
 
     override fun onCreate(owner: LifecycleOwner) {
         super.onCreate(owner)
@@ -37,7 +34,7 @@ class CommonViewModel(application: Application) : AndroidViewModel(application),
         viewModelScope.launch {
             val response = repository.userData()
             _showLoader.value = false
-            dataResp.value = response
+            _dataResp.value = response
         }
     }
 }

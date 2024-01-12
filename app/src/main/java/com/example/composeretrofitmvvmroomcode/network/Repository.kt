@@ -1,5 +1,6 @@
 package com.example.composeretrofitmvvmroomcode.network
 
+import android.annotation.SuppressLint
 import android.widget.Toast
 import com.example.composeretrofitmvvmroomcode.model.UserData
 import kotlin.coroutines.coroutineContext
@@ -8,6 +9,7 @@ class Repository
 {
     private val dataSource: DataSource = DataSource()
 
+    @SuppressLint("SuspiciousIndentation")
     suspend fun userData(): Resource<UserData> {
         return try {
             val response = dataSource.userData()
