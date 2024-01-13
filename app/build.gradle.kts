@@ -111,6 +111,9 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.8.1")
     implementation("com.squareup.okhttp3:okhttp:4.8.1")
 
+    implementation("io.coil-kt:coil-compose:2.5.0")
+
+
     // activity view model
     implementation("androidx.activity:activity-ktx:1.4.0")
 }
