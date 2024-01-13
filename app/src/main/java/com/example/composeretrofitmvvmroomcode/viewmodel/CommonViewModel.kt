@@ -33,7 +33,9 @@ class CommonViewModel(private val application: Application) : AndroidViewModel(a
     private lateinit var resp : Resource<UserData>
     val database = AppDatabase.getInstance(application)
 
-    private lateinit var list : Resource<ProductEntity>
+    var list : List<ProductEntity> = ArrayList()
+    private val _uiState = MutableStateFlow<List<ProductEntity>>(emptyList())
+    val uiState: StateFlow<List<ProductEntity>> = _uiState.asStateFlow()
 
 
     override fun onCreate(owner: LifecycleOwner) {
@@ -69,10 +71,10 @@ class CommonViewModel(private val application: Application) : AndroidViewModel(a
     suspend fun getProdList()
     {
         withContext(Dispatchers.IO){
-          database.productDao().getAllProduct().collect({
-              list = it as Resource<ProductEntity>
-          })
+          database.productDao().getAllProduct().collect {
+              list = it
+          }
+            _uiState.value = list
         }
-
     }
 }
