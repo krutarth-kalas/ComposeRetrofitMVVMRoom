@@ -1,7 +1,10 @@
 package com.example.composeretrofitmvvmroomcode.model
 
+import android.os.Parcelable
 import com.fasterxml.jackson.annotation.JsonProperty
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Product(
     @JsonProperty("brand")
     var brand: String? = "",
@@ -25,4 +28,4 @@ data class Product(
     var thumbnail: String? = "",
     @JsonProperty("title")
     var title: String? = "",
-)
+) : Parcelable
